@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}View Item{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h4 class="card-title mb-3">{{ item.title }}</h4>
+          <p class="card-text">{{ item.content }}</p>
+          <p class="text-muted">
+            Created: {{ item.created_at.strftime('%Y-%m-%d %H:%M') }}
+          </p>
+          <a href="{{ url_for('main.update_item', item_id=item.id) }}"
+             class="btn btn-warning me-2">Edit</a>
+          <a href="{{ url_for('main.dashboard') }}" class="btn btn-secondary">
+            Back to Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

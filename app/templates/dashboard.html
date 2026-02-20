@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h4 class="card-title mb-2">
+            Welcome, {{ user.username }}
+          </h4>
+          <p class="text-muted mb-0">
+            Manage your records and see your recent activity here.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <div class="card shadow-sm text-center">
+        <div class="card-body">
+          <div class="text-muted">Total Activities</div>
+          <h2 class="display-6 mb-0">{{ activities|length }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm mb-3">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span>Your Records</span>
+          <a href="{{ url_for('main.create_item') }}" class="btn btn-primary btn-sm">
+            + Create
+          </a>
+        </div>
+        <div class="card-body">
+          {% if items %}
+            <div class="list-group">
+              {% for item in items %}
+                <div class="list-group-item d-flex flex-column flex-sm-row
+                            justify-content-between align-items-sm-center">
+                  <div class="mb-2 mb-sm-0">
+                    <h6 class="mb-1">{{ item.title }}</h6>
+                    <small class="text-muted">
+                      Created: {{ item.created_at.strftime('%Y-%m-%d %H:%M') }}
+                    </small>
+                  </div>
+                  <div class="btn-group btn-group-sm" role="group">
+                    <a href="{{ url_for('main.view_item', item_id=item.id) }}"
+                       class="btn btn-outline-secondary">View</a>
+                    <a href="{{ url_for('main.update_item', item_id=item.id) }}"
+                       class="btn btn-outline-warning">Edit</a>
+                    <form method="post"
+                          action="{{ url_for('main.delete_item', item_id=item.id) }}"
+                          onsubmit="return confirm('Delete this item?');">
+                      <button type="submit" class="btn btn-outline-danger">
+                        Delete
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <p class="text-muted mb-0">You have no records yet.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header">
+          Recent Activity
+        </div>
+        <div class="card-body">
+          {% if activities %}
+            <ul class="list-group list-group-flush">
+              {% for act in activities %}
+                <li class="list-group-item d-flex justify-content-between">
+                  <span>{{ act.activity_description }}</span>
+                  <small class="text-muted">
+                    {{ act.timestamp.strftime('%Y-%m-%d %H:%M') }}
+                  </small>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="text-muted mb-0">No activity yet.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
