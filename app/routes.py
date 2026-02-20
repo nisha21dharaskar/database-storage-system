@@ -12,7 +12,7 @@ from flask import (
 )
 
 from . import db
-from .models import ActicdvityHistory, StoredItem, User
+from .models import ActivityHistory, StoredItem, User
 
 
 main_bp = Blueprint("main", __name__)
